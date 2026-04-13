@@ -8,13 +8,14 @@ const app = express()
 function getAllowedOrigins() {
   return [
     config.frontendUrl,
+    ...config.frontendUrls,
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175',
     'http://localhost:5176',
     'http://localhost:5177',
     'http://localhost:5178',
-  ]
+  ].map((origin) => origin.replace(/\/$/, ''))
 }
 
 function buildPreviewUrl(redirectToken) {
@@ -31,7 +32,9 @@ app.use(
 
       const allowedOrigins = getAllowedOrigins()
 
-      if (allowedOrigins.includes(origin)) {
+      const normalizedOrigin = origin.replace(/\/$/, '')
+
+      if (allowedOrigins.includes(normalizedOrigin)) {
         callback(null, true)
         return
       }
@@ -113,7 +116,8 @@ app.post('/api/checkout', async (request, response) => {
     .map((item) => `${item.quantity} x ${item.name}`)
     .join(', ')
     .slice(0, 255)
-  const origin = getAllowedOrigins().includes(request.headers.origin) ? request.headers.origin : config.frontendUrl
+  const requestOrigin = request.headers.origin?.replace(/\/$/, '')
+  const origin = getAllowedOrigins().includes(requestOrigin) ? requestOrigin : config.frontendUrl
 
   try {
     const providerResponse = await fetch(config.udupayApiUrl, {

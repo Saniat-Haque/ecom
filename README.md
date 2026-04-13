@@ -28,6 +28,30 @@ Frontend: `http://localhost:5173`
 
 Backend: `http://localhost:4000`
 
+## Deploy
+
+Deploy the frontend to Vercel with:
+
+```bash
+Root Directory: frontend
+Install Command: npm install
+Build Command: npm run build
+Output Directory: dist
+VITE_API_BASE_URL=https://your-backend-url.onrender.com
+```
+
+Deploy the backend to Render with:
+
+```bash
+Root Directory: backend
+Build Command: npm install
+Start Command: npm start
+FRONTEND_URL=https://your-frontend-url.vercel.app
+FRONTEND_URLS=https://your-frontend-url.vercel.app
+```
+
+`FRONTEND_URLS` can contain a comma-separated list if you want to allow multiple frontend domains, such as a production Vercel domain and a preview/custom domain.
+
 ## UduPay later
 
 The backend already reads UduPay settings from `backend/.env`.
