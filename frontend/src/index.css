@@ -1,0 +1,72 @@
+:root {
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #2d2118;
+  background:
+    radial-gradient(circle at top left, rgba(255, 208, 156, 0.8), transparent 24%),
+    linear-gradient(180deg, #f6efe6 0%, #efe1cf 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+strong {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 5vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.7rem;
+  line-height: 1.08;
+  margin-bottom: 0;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+#root {
+  min-height: 100vh;
+}
