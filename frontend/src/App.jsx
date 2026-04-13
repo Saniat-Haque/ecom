@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+function getDefaultApiBaseUrl() {
+  const hostname = globalThis.location?.hostname
+
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:4000'
+  }
+
+  return 'https://ecom-xppo.onrender.com'
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || getDefaultApiBaseUrl()
 
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
