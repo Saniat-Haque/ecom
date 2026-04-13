@@ -8,6 +8,30 @@ const currency = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 })
 
+const demoProducts = [
+  {
+    id: 'wireless-headphones',
+    shortName: 'WH',
+    name: 'Wireless Headphones',
+    description: 'Easy sample item for checking cart totals and BNPL checkout flow.',
+    price: 149,
+  },
+  {
+    id: 'smart-watch',
+    shortName: 'SW',
+    name: 'Smart Watch',
+    description: 'Another product with a different price point for testing installments.',
+    price: 219,
+  },
+  {
+    id: 'portable-speaker',
+    shortName: 'PS',
+    name: 'Portable Speaker',
+    description: 'Simple accessory item to make multi-product orders easy to simulate.',
+    price: 89,
+  },
+]
+
 const highlights = [
   'Free shipping over $120',
   'Fast sandbox checkout testing',
@@ -37,6 +61,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState('')
+  const [catalogMessage, setCatalogMessage] = useState('')
   const [checkoutResult, setCheckoutResult] = useState(null)
 
   useEffect(() => {
@@ -45,14 +70,29 @@ function App() {
     async function loadProducts() {
       try {
         const response = await fetch(`${API_BASE_URL}/api/products`)
+        if (!response.ok) {
+          throw new Error('Unable to load products from the API.')
+        }
+
         const data = await response.json()
+        const nextProducts = Array.isArray(data.products) && data.products.length > 0
+          ? data.products
+          : demoProducts
 
         if (!ignore) {
-          setProducts(data.products ?? [])
+          setProducts(nextProducts)
+          setCatalogMessage(
+            nextProducts === demoProducts
+              ? 'Showing built-in demo products for testing because the live catalog is unavailable.'
+              : '',
+          )
         }
       } catch {
         if (!ignore) {
-          setMessage('Unable to load products. Please make sure the backend is running.')
+          setProducts(demoProducts)
+          setCatalogMessage(
+            'Showing built-in demo products for testing because the live catalog could not be loaded.',
+          )
         }
       } finally {
         if (!ignore) {
@@ -236,6 +276,7 @@ function App() {
           </div>
 
           {loading ? <p>Loading products...</p> : null}
+          {catalogMessage ? <p className="catalog-message">{catalogMessage}</p> : null}
 
           <div className="product-grid">
             {products.map((product, index) => {
